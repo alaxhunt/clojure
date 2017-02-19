@@ -722,17 +722,7 @@
             (cons (first s) (concat (rest s) y)))
           y))))
   ([x y & zs]
-     (let [cat (fn cat [xys zs]
-                 (lazy-seq
-                   (let [xys (seq xys)]
-                     (if xys
-                       (if (chunked-seq? xys)
-                         (chunk-cons (chunk-first xys)
-                                     (cat (chunk-rest xys) zs))
-                         (cons (first xys) (cat (rest xys) zs)))
-                       (when zs
-                         (cat (first zs) (next zs)))))))]
-       (cat (concat x y) zs))))
+     (lazy-seq (apply concat (concat x y) zs))))
 
 ;;;;;;;;;;;;;;;;at this point all the support for syntax-quote exists;;;;;;;;;;;;;;;;;;;;;;
 (defmacro delay
